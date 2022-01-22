@@ -1,28 +1,6 @@
 import React, { useState } from "react";
 
-function loadComponent(importFunc) {
-  return class WrappedComponent extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        Component: null,
-      };
-    }
-
-    componentDidMount() {
-      importFunc().then(({ default: MyDefaultComponent }) =>
-        this.setState({ Component: MyDefaultComponent })
-      );
-    }
-
-    render() {
-      const { Component } = this.state;
-      return Component ? <Component {...this.props} /> : null;
-    }
-  };
-}
-
-const MyDefaultComponent = loadComponent(() => import("./MyDefaultComponent"));
+const MyDefaultComponent = React.lazy(() => import("./MyDefaultComponent"));
 
 function App() {
   const [names, namesSet] = useState(null);
@@ -39,7 +17,11 @@ function App() {
       <div>Home App</div>
       <button onClick={loadJson}>Load</button>
       <div>{JSON.stringify(names)}</div>
-      {names && MyDefaultComponent && <MyDefaultComponent />}
+      {names && MyDefaultComponent && (
+        <React.Suspense fallback={<div>Loading</div>}>
+          <MyDefaultComponent />
+        </React.Suspense>
+      )}
     </div>
   );
 }
