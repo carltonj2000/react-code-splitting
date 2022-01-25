@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import Header from "./Header";
+
 const MyDefaultComponent = React.lazy(() => import("./MyDefaultComponent"));
 
 function App() {
@@ -14,6 +16,7 @@ function App() {
 
   return (
     <div>
+      <Header />
       <div>Home App</div>
       <button onClick={loadJson}>Load</button>
       <div>{JSON.stringify(names)}</div>

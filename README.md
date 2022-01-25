@@ -5,3 +5,10 @@ The code in this repository is based on the
 video.
 
 Initial commit has code splitting done manually/simply.
+
+Also does module federation.
+
+```bash
+yarn start # in home
+yarn start # in product
+```
